@@ -29,11 +29,11 @@ my ($PluginDir) = grep { -f $_ . "/Koha/Plugin/EDS.pm" } @pluginsdir;
 $PluginDir = $PluginDir.'/Koha/Plugin/EDS';
 
 ################# DO NOT TOUCH - CONTROLLED BY build.py
-our $MAJOR_VERSION = "21.05";
-our $SUB_VERSION = "001";
+our $MAJOR_VERSION = "20.11";
+our $SUB_VERSION = "009";
 our $VERSION = $MAJOR_VERSION . "" . $SUB_VERSION;
 our $SHA_ADD = "https://widgets.ebscohost.com/prod/api/koha/sha/1711.json";
-our $DATE_UPDATE = '2021-08-17';
+our $DATE_UPDATE = '2021-08-02';
 ######################################################
 
 ## Here is our metadata, some keys are required, some are optional
@@ -110,7 +110,6 @@ sub configure {
 			defaultparams	    => $self->retrieve_data('defaultparams'),
 			autocomplete_mode	=> $self->retrieve_data('autocomplete_mode'),
 			autocomplete	    => $self->retrieve_data('autocomplete'),
-			PLUGIN_HTTP_PATH	=> $self->get_plugin_http_path(),
 
 
         );
@@ -176,8 +175,7 @@ sub update_EDSScript_js {
 		autocomplete		=> ($cgi->param('autocomplete')?$cgi->param('autocomplete'):"-"),
 		authtoken 			=> $cgi->param('authtoken'),
 		lastedsinfoupdate	=> $cgi->param('lastedsinfoupdate'),
-		edsinfo 			=> quotemeta($self->retrieve_data('edsinfo')),
-		PLUGIN_HTTP_PATH 	=> $self->get_plugin_http_path(),
+		edsinfo 			=> quotemeta($self->retrieve_data('edsinfo'))
 	};
     #my $pluginsdir = C4::Context->config('pluginsdir');
     #my @pluginsdir = ref($pluginsdir) eq 'ARRAY' ? @$pluginsdir : $pluginsdir;
@@ -187,9 +185,8 @@ sub update_EDSScript_js {
     #        push @plugindirs, $plugindir
     #}
     my $template = Template->new({
-		INCLUDE_PATH 		=> $PluginDir,
-		OUTPUT_PATH 		=> $PluginDir,
-		PLUGIN_HTTP_PATH 	=> $self->get_plugin_http_path(),
+		INCLUDE_PATH => $PluginDir,
+		OUTPUT_PATH => $PluginDir
     });
 	$template->process('js/EDSScript.tt',$vars, 'js/EDSScript.js');
 	$template->process('opac/templates/eds-methods.tt',$vars, 'opac/eds-methods.pl');
@@ -247,7 +244,7 @@ sub opac_js {
     <script>
     var defaultSearch="| . $default_search . q|";
     </script>
-    <script src="|. $self->get_plugin_http_path() . q|/js/EDSScript.js">
+    <script src="/plugin/Koha/Plugin/EDS/js/EDSScript.js">
     </script>
     |;
 }
@@ -375,7 +372,6 @@ sub SetupTool {
 			customjs			=>\@customJSContent,
 			jsstate				=>$customJS,
 			plugin_dir			=>$PluginDir,
-			PLUGIN_HTTP_PATH 	=> $self->get_plugin_http_path(),
 
         );
 
