@@ -245,7 +245,7 @@ if($cgi->param("q")){
 		OPACResultsSidebar => C4::Context->preference('OPACResultsSidebar'),
 		expanders		=>$EDSInfo->{AvailableSearchCriteria}->{AvailableExpanders},
 		guestTrack 		=>$GuestTracker,
-		PLUGIN_HTTP_PATH => $EDSConfig->{pluginhttppath},
+		PLUGIN_HTTP_PATH => "/plugin/Koha/Plugin/EDS",
 	);
 
 my $casAuthentication = C4::Context->preference('casAuthentication');
