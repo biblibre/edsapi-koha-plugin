@@ -110,7 +110,7 @@ sub configure {
 			defaultparams	    => $self->retrieve_data('defaultparams'),
 			autocomplete_mode	=> $self->retrieve_data('autocomplete_mode'),
 			autocomplete	    => $self->retrieve_data('autocomplete'),
-			PLUGIN_HTTP_PATH	=> $self->get_plugin_http_path(),
+			PLUGIN_HTTP_PATH	=> "/plugin/Koha/Plugin/EDS",
 
 
         );
@@ -136,7 +136,7 @@ sub configure {
 					defaultparams	=> ($cgi->param('defaultparams')?$cgi->param('defaultparams'):"-"),
 					autocomplete_mode	=> ($cgi->param('autocomplete_mode')?$cgi->param('autocomplete_mode'):"-"),
 					autocomplete	=> ($cgi->param('autocomplete')?$cgi->param('autocomplete'):"-"),
-					PLUGIN_HTTP_PATH	=> $self->get_plugin_http_path(),
+					PLUGIN_HTTP_PATH	=> "/plugin/Koha/Plugin/EDS",
 				}
 			);
 
@@ -177,7 +177,7 @@ sub update_EDSScript_js {
 		authtoken 			=> $cgi->param('authtoken'),
 		lastedsinfoupdate	=> $cgi->param('lastedsinfoupdate'),
 		edsinfo 			=> quotemeta($self->retrieve_data('edsinfo')),
-		PLUGIN_HTTP_PATH 	=> $self->get_plugin_http_path(),
+		PLUGIN_HTTP_PATH 	=> "/plugin/Koha/Plugin/EDS",
 	};
     #my $pluginsdir = C4::Context->config('pluginsdir');
     #my @pluginsdir = ref($pluginsdir) eq 'ARRAY' ? @$pluginsdir : $pluginsdir;
@@ -189,7 +189,7 @@ sub update_EDSScript_js {
     my $template = Template->new({
 		INCLUDE_PATH 		=> $PluginDir,
 		OUTPUT_PATH 		=> $PluginDir,
-		PLUGIN_HTTP_PATH 	=> $self->get_plugin_http_path(),
+		PLUGIN_HTTP_PATH 	=> "/plugin/Koha/Plugin/EDS",
     });
 	$template->process('js/EDSScript.tt',$vars, 'js/EDSScript.js');
 	$template->process('opac/templates/eds-methods.tt',$vars, 'opac/eds-methods.pl');
@@ -247,7 +247,7 @@ sub opac_js {
     <script>
     var defaultSearch="| . $default_search . q|";
     </script>
-    <script src="|. $self->get_plugin_http_path() . q|/js/EDSScript.js">
+    <script src="/plugin/Koha/Plugin/EDS/js/EDSScript.js">
     </script>
     |;
 }
