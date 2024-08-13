@@ -220,6 +220,11 @@ sub install() {
 }
 
 
+# Mandatory even if does nothing
+sub upgrade {
+    my ( $self, $args ) = @_;
+    return 1;
+}
 
 
 sub uninstall() {
