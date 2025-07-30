@@ -1,0 +1,33 @@
+From 8f4bdbbc509325da4f081cb744ae137382efe04a Mon Sep 17 00:00:00 2001
+From: Fridolin Somers <fridolin.somers@biblibre.com>
+Date: Wed, 30 Jul 2025 12:05:55 +0200
+Subject: [PATCH] PLACK: reinstall EDS plugin
+
+---
+ etc/plack/all.psgi | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/etc/plack/all.psgi b/etc/plack/all.psgi
+index 977b5e3..a7d98b3 100644
+--- a/etc/plack/all.psgi
++++ b/etc/plack/all.psgi
+@@ -66,6 +66,10 @@ my $apiv1  = builder {
+     $server->to_psgi_app;
+ };
+ 
++my $eds_opac = Plack::App::CGIBin->new(
++    root => '/home/koha/lib/koha-plugin-edsapi/Koha/Plugin/EDS/opac/'
++)->to_app;
++
+ Koha::Logger->_init;
+ 
+ builder {
+@@ -100,4 +104,5 @@ builder {
+         }
+         $apiv1;
+     };
++    mount '/plugin/Koha/Plugin/EDS/opac' => $eds_opac;
+ };
+-- 
+2.34.1
+
