@@ -1,3 +1,36 @@
+Biblibre
+========
+
+This plugin needs to run its perl files in Plack.
+
+So you need to add to PSGI for OPAC :
+
+```
+@@ -62,6 +62,10 @@ my $apiv1  = builder {
+     $server->to_psgi_app;
+ };
+ 
++my $eds_opac = Plack::App::CGIBin->new(
++    root => "$home/lib/koha-plugin-edsapi/Koha/Plugin/EDS/opac"
++)->to_app;
++
+ Koha::Logger->_init;
+ 
+ builder {
+@@ -88,4 +92,11 @@ builder {
+         }
+         $apiv1;
+     };
++    mount '/plugin/Koha/Plugin/EDS/opac' => builder {
++        if ( Log::Log4perl->get_logger('plack-eds')->has_appenders ){
++            enable 'Log4perl', category => 'plack-eds';
++            enable 'LogWarn';
++        }
++        $eds_opac;
++    };
+ };
+```
+
 edsapi-koha-plugin
 ==================
 
